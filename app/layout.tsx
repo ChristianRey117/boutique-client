@@ -1,10 +1,8 @@
 "use client";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { useEffect } from "react";
 import Header from "./components/header/header";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,14 +12,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  useEffect(() => {
-    require("bootstrap/dist/js/bootstrap.bundle.min.js");
-  }, []);
+
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Header></Header>
-        {children}</body>
+      <PrimeReactProvider>
+        <body className={inter.className}>
+          <Header></Header>
+          
+          {children}</body>
+      </PrimeReactProvider>
+   
     </html>
   );
 }
