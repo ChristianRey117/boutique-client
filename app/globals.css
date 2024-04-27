@@ -32,3 +32,31 @@ body {
     text-wrap: balance;
   }
 }
+
+h1{
+  font-size: 2.6rem;
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h3{
+  font-size: 1.6rem;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.p-dropdown{
+  background-color: rgb(70 90 119);
+}
+.p-dropdown-items{
+  background-color: rgb(112, 135, 168);
+}
+.p-inputgroup{
+  span{
+    background-color: rgb(70 90 119);
+
+  }
+  .p-inputtext{
+    background-color: rgb(70 90 119);
+  }
+}
+

@@ -4,15 +4,19 @@ import Image from "next/image";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { CardProduct } from "../../components/card-product/card-product";
+import { IProductList } from "@/app/interface/IProductList";
 
-export default function ProductsList() {
+export default function ProductsList({ limit }: IProductList) {
   const [products, setProducts] = useState([{}]);
   useEffect(() => {
     fetch("https://662a68c267df268010a3d00f.mockapi.io/products")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setProducts(data);
+        if (limit) {
+          setProducts(data.slice(0, limit));
+        } else {
+          setProducts(data);
+        }
       });
   }, []);
 

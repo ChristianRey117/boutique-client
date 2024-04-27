@@ -46,7 +46,7 @@ export default function Home() {
       </div>
 
       <div>
-        <ProductsList></ProductsList>
+        <ProductsList limit={10}></ProductsList>
       </div>
     </div>
   );
