@@ -1,3 +1,4 @@
+"use client";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
@@ -6,11 +7,12 @@ import {
   XMarkIcon,
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "Products", href: "/pages/products", current: false },
-  { name: "About Us", href: "#", current: false },
+  { name: "About Us", href: "/pages/about-us", current: false },
 ];
 
 function classNames(...classes: any) {
@@ -18,6 +20,12 @@ function classNames(...classes: any) {
 }
 
 export default function Example() {
+  const router = useRouter();
+
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    router.push("/pages/cart");
+  };
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }: any) => (
@@ -68,6 +76,7 @@ export default function Example() {
                 <button
                   type="button"
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  onClick={handleClick}
                 >
                   <ShoppingBagIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
@@ -98,7 +107,7 @@ export default function Example() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="/pages/profile"
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
@@ -117,7 +126,7 @@ export default function Example() {
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
-                            Settings
+                            Your shops
                           </a>
                         )}
                       </Menu.Item>
