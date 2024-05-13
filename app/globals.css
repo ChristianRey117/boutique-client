@@ -65,3 +65,13 @@ h3{
   }
 }
 
+.size-button{
+  div{
+    padding: 25px;
+    text-align: center;
+    button{
+      width: 50px;
+    }
+  }
+}
+
