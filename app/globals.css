@@ -75,3 +75,18 @@ h3{
   }
 }
 
+.p-inputtext{
+  background-color: rgb(133, 144, 161);
+  height: 2.5rem;
+}
+
+.p-fileupload-buttonbar{
+  background-color: rgb(102, 122, 151);
+
+}
+
+.p-fileupload-content{
+  background-color: rgb(133, 144, 161);
+
+}
+
