@@ -1,11 +1,27 @@
 "use client";
+
+import { IProducts } from "@/app/sections/products-list/products-list";
 import { ProgressBar } from "primereact/progressbar";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Form, InputGroup } from "react-bootstrap";
 export default function ProductsPage() {
   const [selectedCity, setSelectedCity] = useState();
-  const [categories, setCategories] = useState();
+  const [cart, setCart] = useState<ICardCartShop>();
+  const [priceTotal, setPriceTotal] = useState<any>();
 
+  useEffect(() => {
+    fetch("http://localhost:3000/cartShop?idUser=1")
+      .then((res) => res.json())
+      .then((data: ICardCartShop[]) => {
+        setCart(data[0]);
+        let price = 0;
+        data[0]?.productsId.map((product: IProductsId) => {
+          price = price + product.quantity * product.price;
+          console.log(price);
+          setPriceTotal(price);
+        });
+      });
+  }, []);
   return (
     <div>
       <div className="container m-5">
@@ -29,93 +45,57 @@ export default function ProductsPage() {
                 ></ProgressBar>
               </div>
 
-              <div className="col-12 mb-3">
-                <Card style={{ borderRadius: "30px", height: "180px" }}>
-                  <div className="row" style={{ margin: "auto" }}>
-                    <div className="col-3">
-                      <img src="/images/camisa-real.jpg" alt="" />
-                    </div>
-
-                    <div className="col-6">
-                      <div className="row">
-                        <div className="col-12">
-                          <p>Men's Real Madrid 2023/24 Third Jersey</p>
+              {cart?.productsId.map((product: IProductsId) => {
+                return (
+                  <div className="col-12 mb-3">
+                    <Card style={{ borderRadius: "30px", height: "180px" }}>
+                      <div className="row" style={{ margin: "auto" }}>
+                        <div className="col-3">
+                          <img src={product.image} alt="" />
                         </div>
 
-                        <div className="col-12">
-                          <p>CA$140</p>
+                        <div className="col-6">
+                          <div className="row">
+                            <div className="col-12">
+                              <p>{product.title}</p>
+                            </div>
+
+                            <div className="col-12">
+                              <p>CA$ {product.price}</p>
+                            </div>
+
+                            <div className="col-12">
+                              <p>
+                                <span>Size: </span>
+                                {product.size}
+                              </p>
+                            </div>
+
+                            <div className="col-12">
+                              <InputGroup style={{ width: "120px" }}>
+                                <InputGroup.Text>-</InputGroup.Text>
+                                <Form.Control
+                                  style={{ textAlign: "center" }}
+                                  defaultValue={product.quantity}
+                                  aria-label="coutProducts"
+                                />
+                                <InputGroup.Text>+</InputGroup.Text>
+                              </InputGroup>
+                            </div>
+                          </div>
                         </div>
 
-                        <div className="col-12">
+                        <div className="col-3">
                           <p>
-                            <span>Size: </span>XL
+                            CA$
+                            {product.quantity * product.price}
                           </p>
                         </div>
-
-                        <div className="col-12">
-                          <InputGroup style={{ width: "120px" }}>
-                            <InputGroup.Text>-</InputGroup.Text>
-                            <Form.Control
-                              style={{ textAlign: "center" }}
-                              value={1}
-                              aria-label="coutProducts"
-                            />
-                            <InputGroup.Text>+</InputGroup.Text>
-                          </InputGroup>
-                        </div>
                       </div>
-                    </div>
-
-                    <div className="col-3">
-                      <p>CA$140</p>
-                    </div>
+                    </Card>
                   </div>
-                </Card>
-              </div>
-
-              <div className="col-12 mb-3">
-                <Card style={{ borderRadius: "30px", height: "180px" }}>
-                  <div className="row" style={{ margin: "auto" }}>
-                    <div className="col-3">
-                      <img src="/images/camisa-real.jpg" alt="" />
-                    </div>
-
-                    <div className="col-6">
-                      <div className="row">
-                        <div className="col-12">
-                          <p>Men's Real Madrid 2023/24 Third Jersey</p>
-                        </div>
-
-                        <div className="col-12">
-                          <p>CA$140</p>
-                        </div>
-
-                        <div className="col-12">
-                          <p>
-                            <span>Size: </span>XL
-                          </p>
-                        </div>
-
-                        <div className="col-12">
-                          <InputGroup style={{ width: "120px" }}>
-                            <InputGroup.Text>-</InputGroup.Text>
-                            <Form.Control
-                              style={{ textAlign: "center" }}
-                              value={1}
-                              aria-label="coutProducts"
-                            />
-                            <InputGroup.Text>+</InputGroup.Text>
-                          </InputGroup>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-3">
-                      <p>CA$140</p>
-                    </div>
-                  </div>
-                </Card>
-              </div>
+                );
+              })}
             </div>
           </div>
 
@@ -134,7 +114,7 @@ export default function ProductsPage() {
                       <p>SUBTOTAL: </p>
                     </div>
                     <div className="col-6">
-                      <p>CA$140</p>
+                      <p>CA$ {priceTotal}</p>
                     </div>
 
                     <div className="col-12" style={{ marginTop: "12%" }}>
@@ -156,4 +136,20 @@ export default function ProductsPage() {
       </div>
     </div>
   );
+}
+
+export interface ICardCartShop {
+  id: number;
+  idUser: number;
+  date: string;
+  productsId: IProductsId[];
+}
+
+export interface IProductsId {
+  id: number;
+  size: string;
+  quantity: number;
+  title: string;
+  image: string;
+  price: number;
 }
