@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import Card from "react-bootstrap/Card";
 
-export function CardProduct({ id, title, text, price, image }: any) {
+export function CardProduct({ id, title, text, price, image, quantity }: any) {
   const router = useRouter();
   return (
     <Card style={{ width: "18rem" }}>
@@ -19,6 +19,10 @@ export function CardProduct({ id, title, text, price, image }: any) {
             {text}
           </p>
         </Card.Text>
+        <span className="bg-zinc-700 rounded-full text-[0.8rem] px-2 py-0 text-white">
+          Available: {quantity}
+        </span>
+
         <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs font-bold dark:bg-zinc-800">
           <span>Buy now </span>
           <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">

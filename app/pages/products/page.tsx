@@ -6,16 +6,33 @@ import ProductsList from "../../sections/products-list/products-list";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { FloatLabel } from "primereact/floatlabel";
+import { ICollections } from "@/app/components/collection/colletion";
 export default function ProductsPage() {
   const [selectedCity, setSelectedCity] = useState();
   const [categories, setCategories] = useState();
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedName, setSelectedName] = useState<string>();
 
-  const filterCategories = (category: string) => {};
+  const filterCategories = (category: any) => {
+    setSelectedCategory(category.name);
+  };
+
+  const filterName = (name: string) => {
+    console.log("name before", name);
+    setSelectedName(name);
+  };
   useEffect(() => {
-    fetch("https://662a68c267df268010a3d00f.mockapi.io/categories")
+    fetch("http://localhost:3000/collections")
       .then((res) => res.json())
       .then((data) => {
-        setCategories(data);
+        setCategories(
+          data.map((collection: any) => {
+            return {
+              id: collection.id,
+              name: collection.nameColletion,
+            };
+          })
+        );
       });
   }, []);
 
@@ -37,7 +54,7 @@ export default function ProductsPage() {
               <Dropdown
                 inputId="dd-city"
                 value={selectedCity}
-                onChange={(e) => setSelectedCity(e.value)}
+                onChange={(e) => filterCategories(e.value)}
                 options={categories}
                 optionLabel="name"
                 className="w-full"
@@ -59,8 +76,7 @@ export default function ProductsPage() {
                 placeholder="Username"
                 style={{ color: "white" }}
                 onChange={(e: any) => {
-                  filterCategories(e.target.value);
-                  console.log(e.target.value);
+                  filterName(e.target.value);
                 }}
               />
             </div>
@@ -68,7 +84,10 @@ export default function ProductsPage() {
         </div>
       </div>
       <div>
-        <ProductsList></ProductsList>
+        <ProductsList
+          collection={selectedCategory}
+          nameProductFilter={selectedName}
+        ></ProductsList>
       </div>
     </div>
   );

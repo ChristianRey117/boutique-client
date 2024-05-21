@@ -7,7 +7,11 @@ import { CardProduct } from "../../components/card-product/card-product";
 import { IProductList } from "@/app/interface/IProductList";
 import { useRouter } from "next/navigation";
 
-export default function ProductsList({ limit }: IProductList) {
+export default function ProductsList({
+  limit,
+  collection,
+  nameProductFilter,
+}: any) {
   const [products, setProducts] = useState(Array<IProducts>);
   const _router = useRouter();
   useEffect(() => {
@@ -25,20 +29,48 @@ export default function ProductsList({ limit }: IProductList) {
   return (
     <div className="container">
       <div className="row">
-        <h2 style={{ margin: "5%" }}>Products</h2>
+        <h2 style={{ margin: "2%" }}>Products</h2>
+        <div className="col-12">
+          <h3 style={{ textAlign: "center", margin: "2%", padding: "2%" }}>
+            {collection}
+          </h3>
+        </div>
         {products.map((product) => {
-          return (
-            <div className="col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
-              <CardProduct
-                id={product.id}
-                title={product.title}
-                text={product.description}
-                image={product.image}
-                price={product.quantity}
-                key={product.id}
-              ></CardProduct>
-            </div>
-          );
+          if (collection || nameProductFilter) {
+            if (
+              collection == product.collection ||
+              product.title.indexOf(nameProductFilter) > -1
+            ) {
+              console.log("Name", nameProductFilter);
+              return (
+                <div className="col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                  <CardProduct
+                    id={product.id}
+                    title={product.title}
+                    text={product.description}
+                    image={product.image}
+                    price={product.price}
+                    quantity={product.quantity}
+                    key={product.id}
+                  ></CardProduct>
+                </div>
+              );
+            }
+          } else {
+            return (
+              <div className="col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
+                <CardProduct
+                  id={product.id}
+                  title={product.title}
+                  text={product.description}
+                  image={product.image}
+                  price={product.price}
+                  quantity={product.quantity}
+                  key={product.id}
+                ></CardProduct>
+              </div>
+            );
+          }
         })}
       </div>
     </div>
@@ -54,4 +86,5 @@ export interface IProducts {
   collection: string;
   image: string;
   description: string;
+  price: number;
 }
