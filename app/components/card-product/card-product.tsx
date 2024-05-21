@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import Card from "react-bootstrap/Card";
 
-export function CardProduct({ title, text, price, image }: any) {
+export function CardProduct({ id, title, text, price, image }: any) {
   const router = useRouter();
   return (
     <Card style={{ width: "18rem" }}>

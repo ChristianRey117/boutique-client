@@ -5,11 +5,13 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { CardProduct } from "../../components/card-product/card-product";
 import { IProductList } from "@/app/interface/IProductList";
+import { useRouter } from "next/navigation";
 
 export default function ProductsList({ limit }: IProductList) {
-  const [products, setProducts] = useState([{}]);
+  const [products, setProducts] = useState(Array<IProducts>);
+  const _router = useRouter();
   useEffect(() => {
-    fetch("https://662a68c267df268010a3d00f.mockapi.io/products")
+    fetch("http://localhost:3000/products")
       .then((res) => res.json())
       .then((data) => {
         if (limit) {
@@ -23,14 +25,16 @@ export default function ProductsList({ limit }: IProductList) {
   return (
     <div className="container">
       <div className="row">
-        {products.map((product: any) => {
+        <h2 style={{ margin: "5%" }}>Products</h2>
+        {products.map((product) => {
           return (
             <div className="col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-3">
               <CardProduct
-                title={product.name}
-                text={product.text}
+                id={product.id}
+                title={product.title}
+                text={product.description}
                 image={product.image}
-                price={product.price}
+                price={product.quantity}
                 key={product.id}
               ></CardProduct>
             </div>
@@ -39,4 +43,15 @@ export default function ProductsList({ limit }: IProductList) {
       </div>
     </div>
   );
+}
+
+export interface IProducts {
+  id: number;
+  createAt: string;
+  title: string;
+  quantity: number;
+  category: string;
+  collection: string;
+  image: string;
+  description: string;
 }

@@ -52,7 +52,7 @@ export default function Home() {
       </div>
 
       <div>
-        <ProductsList limit={10}></ProductsList>
+        <ProductsList limit={8}></ProductsList>
       </div>
     </div>
   );

@@ -1,0 +1,10 @@
+{
+    "collections":[
+        {
+            "id":1,
+            "image": "/images/camisa-real.jpg",
+            "title": "La liga",
+            "subtitle": "This is teams of Spain"
+        }
+    ]
+}
