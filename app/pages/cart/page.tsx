@@ -35,7 +35,21 @@ export default function ProductsPage() {
       headers: { "Content-Type": "application/json" },
     })
       .then((res) => res.json())
-      .then((data) => {});
+      .then((data) => {
+        _router.push("/pages/products");
+      });
+  };
+
+  const shopCart = () => {
+    fetch("http://localhost:1811/api/stripe", {
+      method: "POST",
+      body: JSON.stringify(cart),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        window.location.replace(data);
+      });
   };
   return (
     <div>
@@ -155,6 +169,7 @@ export default function ProductsPage() {
                           style={{
                             width: "100%",
                           }}
+                          onClick={shopCart}
                         >
                           CHECKOUT
                         </Button>
