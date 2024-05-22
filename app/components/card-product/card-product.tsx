@@ -24,7 +24,7 @@ export function CardProduct({ id, title, text, price, image, quantity }: any) {
         </span>
 
         <button className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs font-bold dark:bg-zinc-800">
-          <span>Buy now </span>
+          <span>Price</span>
           <span className="bg-zinc-700 rounded-full text-[0.6rem] px-2 py-0 text-white">
             ${price}
           </span>
@@ -33,7 +33,7 @@ export function CardProduct({ id, title, text, price, image, quantity }: any) {
         <button
           className="rounded-full pl-4 pr-1 py-1 text-white flex items-center space-x-1 bg-black mt-4 text-xs font-bold dark:bg-zinc-800"
           onClick={() => {
-            router.push("/pages/product-details/1");
+            router.push("/pages/product-details/get?id=" + id);
           }}
         >
           <span>Show </span>

@@ -88,6 +88,12 @@ h3{
 
 .p-fileupload-content{
   background-color: rgb(133, 144, 161);
-
 }
+.p-selectbutton{
+  .p-button{
+  margin: 0px 10px;
+
+  }
+}
+
 
