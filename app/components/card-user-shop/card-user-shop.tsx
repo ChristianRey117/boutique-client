@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap";
 
-export default function cardUserShop({ fechaCompra, products }: ICardUserShop) {
+export default function cardUserShop({ fechaCompra, products }: any) {
   return (
     <div className="row">
       <div className="col-12">
@@ -10,7 +10,7 @@ export default function cardUserShop({ fechaCompra, products }: ICardUserShop) {
               Date of shop: {fechaCompra}
             </Card.Title>
             <Card.Text>
-              {products.map((product) => {
+              {products?.map((product: IProductsUserShop) => {
                 return (
                   <div className="row mb-4">
                     <div
@@ -47,6 +47,7 @@ export interface ICardUserShop {
 }
 
 export interface IProductsUserShop {
+  id: number;
   image: string;
   title: string;
   quantity: number;
