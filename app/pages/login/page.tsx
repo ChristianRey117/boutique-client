@@ -1,10 +1,32 @@
 "use client";
+import MessageDialog from "@/app/components/message-dialog/message-dialog";
+import { useRouter } from "next/navigation";
 import { InputText } from "primereact/inputtext";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 
 export default function ProductsPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const [modalShow, setModalShow] = useState(false);
+  const _router = useRouter();
+
+  const submitAction = (event: any) => {
+    event.preventDefault();
+    fetch("http://localhost:3000/users")
+      .then((res) => res.json())
+      .then((data) => {
+        const userFind = data.filter(
+          (user: IUser) =>
+            user.email == event.target.email.value &&
+            user.password == event.target.password.value
+        );
+        if (userFind[0]?.id) {
+          _router.push("/pages/profile");
+        } else {
+          setModalShow(true);
+        }
+      });
+  };
 
   return (
     <div className="container m-5">
@@ -22,7 +44,7 @@ export default function ProductsPage() {
                 Login
               </Card.Title>
               <Card.Text>
-                <form action="" style={{ padding: "10px" }}>
+                <form onSubmit={submitAction} style={{ padding: "10px" }}>
                   <div className="flex flex-column gap-2 mb-4 ">
                     <label htmlFor="username">Email</label>
                     <InputText
@@ -157,6 +179,23 @@ export default function ProductsPage() {
           </Card>
         </div>
       </div>
+
+      <MessageDialog
+        show={modalShow}
+        title="Error Login"
+        subtitle="Incorrect username or password"
+        text="You should write the right password and username!"
+        onHide={() => setModalShow(false)}
+      ></MessageDialog>
     </div>
   );
+}
+
+export interface IUser {
+  id: number;
+  email: string;
+  name: string;
+  lastName: string;
+  password: string;
+  address: string;
 }
