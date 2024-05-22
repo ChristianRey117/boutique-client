@@ -28,6 +28,26 @@ export default function ProductsPage() {
       });
   };
 
+  const submitCreateAccount = (event: any) => {
+    const dataUser = {
+      name: event.target.name.value,
+      lastName: event.target.lastName.value,
+      email: event.target.email.value,
+      password: event.target.password.value,
+      address: "",
+    };
+    event.preventDefault();
+    fetch("http://localhost:3000/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataUser),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setIsLogin(true);
+      });
+  };
+
   return (
     <div className="container m-5">
       <div
@@ -107,7 +127,10 @@ export default function ProductsPage() {
                 Create account
               </Card.Title>
               <Card.Text>
-                <form action="" style={{ padding: "10px" }}>
+                <form
+                  onSubmit={submitCreateAccount}
+                  style={{ padding: "10px" }}
+                >
                   <div className="flex flex-column gap-2 mb-4 ">
                     <label htmlFor="username">Name</label>
                     <InputText
